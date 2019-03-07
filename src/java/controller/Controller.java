@@ -142,6 +142,7 @@ public class Controller extends HttpServlet {
             dispatcher.forward(request, response);
         }else if(op.equals("addCategoria")){
             categoriaSeleccionada=new Categoria();
+            //categoriaSeleccionada.setId(Short.valueOf("10"));
             categoriaSeleccionada.setNombre(request.getParameter("tituloCategoria"));
             
             transaction = em.getTransaction();
