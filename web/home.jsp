@@ -143,7 +143,18 @@
                 </div>
             </div>
         </div>
-        
+            
+        <!-- The snackbar -->
+        <% String mensaje = (String)request.getAttribute("mensaje");
+            if (mensaje!=null){
+                %>
+                <div id="snackbar"><%=mensaje%></div>
+                <script type="text/javascript">
+                    toast();
+                </script>
+            <%}
+        %>
+
         <!-- Modal Chiste-->
         <div class="modal fade" id="modal-chiste" tabindex="-1" role="dialog" aria-labelledby="modal-chiste" aria-hidden="true">
             <div class="modal-dialog" role="document">

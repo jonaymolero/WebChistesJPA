@@ -52,6 +52,7 @@ public class Controller extends HttpServlet {
         Categoria categoriaSeleccionada;
         EntityManager em = null;
         EntityTransaction transaction;
+        String mensaje;
         
         if (em == null) {
             em = JPAUtil.getEntityManagerFactory().createEntityManager();
@@ -145,16 +146,23 @@ public class Controller extends HttpServlet {
             //categoriaSeleccionada.setId(Short.valueOf("10"));
             categoriaSeleccionada.setNombre(request.getParameter("tituloCategoria"));
             
-            transaction = em.getTransaction();
-            transaction.begin();
-            em.persist(categoriaSeleccionada);
-            transaction.commit();
-            em.getEntityManagerFactory().getCache().evictAll();
+            try{
+                transaction = em.getTransaction();
+                transaction.begin();
+                em.persist(categoriaSeleccionada);
+                transaction.commit();
+                em.getEntityManagerFactory().getCache().evictAll();
+                mensaje="Categoria añadida";
+            }catch(Exception e){
+                mensaje="Error: La base de datos no puede contener mas categorias";
+            }
+            
             
             query=em.createNamedQuery("Categoria.findAll");
             List<Categoria> listaCategorias=query.getResultList();
             
             session.setAttribute("listaCategorias",listaCategorias);
+            request.setAttribute("mensaje", mensaje);
             
             dispatcher = request.getRequestDispatcher("home.jsp");
             dispatcher.forward(request, response);
